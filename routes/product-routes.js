@@ -3,11 +3,13 @@ const {
   addProduct,
   getProducts,
   getProduct,
+  getCategories,
 } = require('../controllers/product-controller');
 const { authRoutes } = require('../middlewares/auth');
 
 router.route('/').post(authRoutes, addProduct);
-router.route('/').get(authRoutes, getProducts);
-router.route('/:slug').get(authRoutes, getProduct);
+router.route('/categories').get(getCategories);
+router.route('/category/:category').get(getProducts);
+router.route('/:slug').get(getProduct);
 
 module.exports = router;

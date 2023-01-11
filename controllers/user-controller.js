@@ -6,9 +6,12 @@ const { sendEmail } = require('../utils/sendMail');
 
 //#region ~ POST - /api/v1/auth/signup - REGISTER USER - PUBLIC -
 exports.registerUser = asyncHandler(async (req, res, next) => {
-  let { name, email, password } = req.body;
+  let { firstName, lastName, email, password, phone } = req.body;
+  console.log(firstName, lastName, email, password, phone);
   const user = await User.create({
-    name,
+    firstName,
+    lastName,
+    phone,
     email,
     password,
   });
@@ -124,7 +127,9 @@ exports.searchUser = asyncHandler(async (req, res, next) => {
 
 //#region ~ Util function to get token from model, and send token response
 const sendTokenResponse = (user, statusCode, res) => {
+  console.log('first');
   const token = user.getSignedJwtToken();
-  res.status(statusCode).json({ token: token });
+  console.log(token);
+  res.status(statusCode).json({ token: token, role: user.role });
 };
 //#endregion

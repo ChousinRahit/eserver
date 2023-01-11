@@ -12,7 +12,7 @@ exports.authRoutes = asyncHandler(async (req, res, next) => {
     return next(new httpError('Not Authorized', 403));
   }
   try {
-    const decoded = jwt.verify(token, process.env.SECRET_FOR_TOKEN);
+    const decoded = jwt.verify(token, '35wcu4@$WYUJ5y6rg');
     req.user = await User.findById(decoded.id);
     next();
   } catch (err) {

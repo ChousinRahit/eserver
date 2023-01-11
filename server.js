@@ -6,8 +6,6 @@ const { connectDB } = require('./config/db');
 const app = express();
 const HttpError = require('./utils/httpError');
 const errorHandler = require('./middlewares/error');
-const { createServer } = require('http');
-const http = require('http').Server(app);
 
 // #region ~ CORS ~
 
@@ -38,7 +36,7 @@ app.use(helmet());
 app.use(mongoSanitize());
 
 //#region ~ ENV CONFIG ~
-// require('dotenv').config({ path: './config/.env' });
+require('dotenv').config({ path: './config/.env' });
 
 //#endregion
 
@@ -61,19 +59,8 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-const server = createServer(app);
 
-const start = async () => {
-  try {
-    server.listen(PORT, () =>
-      console.log(`Server Running on port : ${PORT}...`)
-    );
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-start();
+app.listen(PORT, () => console.log(`Server Running on port : ${PORT}...`));
 
 // Handle unhandeled promise rejections
 process.on('unhandledRejection', (err, promise) => {

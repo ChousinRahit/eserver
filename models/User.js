@@ -4,11 +4,16 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
 const UserSchema = mongoose.Schema({
-  FirstName: {
+  firstName: {
     type: String,
     required: [true, 'Please provide your first name'],
   },
-  LastName: {
+  role: {
+    type: String,
+    enum: ['admin', 'customer'],
+    default: 'customer',
+  },
+  lastName: {
     type: String,
     required: [true, 'Please provide your last name'],
   },
@@ -23,6 +28,7 @@ const UserSchema = mongoose.Schema({
   },
   phone: {
     type: Number,
+    required: [true, 'Please provide your Phone number'],
   },
   password: {
     type: String,
@@ -52,8 +58,8 @@ UserSchema.pre('save', async function (next) {
 
 //#region ~ Sign JWT and return :-}
 UserSchema.methods.getSignedJwtToken = function () {
-  return jwt.sign({ id: this._id }, process.env.SECRET_FOR_TOKEN, {
-    expiresIn: process.env.JWT_EXPIRE,
+  return jwt.sign({ id: this._id }, '35wcu4@$WYUJ5y6rg', {
+    expiresIn: '3600000',
   });
 };
 
